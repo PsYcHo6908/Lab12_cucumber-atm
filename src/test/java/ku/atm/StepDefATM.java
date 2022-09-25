@@ -13,6 +13,10 @@ public class StepDefATM {
     Bank bank;
     boolean validLogin;
 
+    //เพิ่ม
+    private BankAccount bankAccount;
+    private Customer customer;
+
     @Before
     public void init() {
         bank = new Bank("KU Bank");
@@ -22,6 +26,7 @@ public class StepDefATM {
     @Given("a customer with id {int} and pin {int} exists")
     public void a_customer_with_id_and_pin_exists(int id, int pin) {
         bank.openAccount(new Customer(id, pin));
+
     }
 
     @Given("a customer with id {int} and pin {int} with balance {float} exists")
@@ -54,6 +59,8 @@ public class StepDefATM {
         assertThrows(NotEnoughBalanceException.class,
                 () -> atm.withdraw(amount));
     }
+
+    //check เงินที่เหลือในบัญชี
     @Then("my account balance is {float}")
     public void my_account_balance_is(double balance) {
         assertEquals(balance, atm.getBalance());
@@ -69,5 +76,14 @@ public class StepDefATM {
         assertEquals(balance,
                      bank.getCustomer(id).getAccount().getBalance());
     }
+
+    //เพิ่ม
+    @When("I deposited {double}  in my account")
+    public void i_deposited_in_my_account(double deposit){
+        atm.deposit(deposit); ///ฝากเงินเข้า
+//        System.out.println(atm.getBalance());
+    }
+
+
 
 }
